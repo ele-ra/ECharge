@@ -9,5 +9,5 @@ public interface RoleService {
 
     RoleEntity findOneByName(String name);
 
-    RoleEntity findOneById(Long id);
+    RoleEntity findOneById(long id);
 }

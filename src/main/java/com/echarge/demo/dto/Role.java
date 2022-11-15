@@ -6,10 +6,8 @@ import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 
 @Data
-@AllArgsConstructor
-@NoArgsConstructor
-public class Role implements GrantedAuthority {
-    public ERole role;
+public class Role {/*implements GrantedAuthority {
+    /*public ERole role;
 
     @Override
     public String getAuthority() {
@@ -40,5 +38,5 @@ public class Role implements GrantedAuthority {
         public String getAuthority() {
             return "ROLE_" + (isAdmin() ? "ADMIN" : "USER");
         }
-    }
+    }*/
 }

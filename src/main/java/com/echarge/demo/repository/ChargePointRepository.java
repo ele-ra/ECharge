@@ -8,9 +8,13 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface ChargePointRepository extends JpaRepository<ChargePointEntity, String> {
+public interface ChargePointRepository extends JpaRepository<ChargePointEntity, Long> {
 
     Optional<ChargePointEntity> findOneByNameAndSn(String name, String sn);
 
-    List<ChargePointEntity> findAllByCustomerId(Long customerId);
+    List<ChargePointEntity> findAllByCustomerId(long customerId);
+
+    Optional<ChargePointEntity> findOneBySnIgnoreCase(String sn);
+
+    ChargePointEntity findOneById(long providedChargePointId);
 }

@@ -9,22 +9,26 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface ChargingSessionRepository extends JpaRepository<ChargingSessionEntity, String> {
-    Optional<ChargingSessionEntity> findOneByCustomerIdAndConnectorIdAndVehicleId(Long customerId, Long connectorId, Long vehicleId);
+public interface ChargingSessionRepository extends JpaRepository<ChargingSessionEntity, Long> {
+    Optional<ChargingSessionEntity> findOneByCustomerIdAndConnectorIdAndVehicleId(long customerId, long connectorId, long vehicleId);
 
-    List<ChargingSessionEntity> findAllByCustomerId(Long customerId);
+    List<ChargingSessionEntity> findAllByCustomerId(long customerId);
 
-    List<ChargingSessionEntity> findAllByCustomerIdAndConnectorId(Long customerId, Long connectorId);
+    List<ChargingSessionEntity> findAllByCustomerIdAndConnectorId(long customerId, long connectorId);
 
-    List<ChargingSessionEntity> findAllByCustomerIdAndVehicleId(Long customerId, Long vehicleId);
+    List<ChargingSessionEntity> findAllByCustomerIdAndVehicleId(long customerId, long vehicleId);
 
-    List<ChargingSessionEntity> findAllByConnectorIdAndEndTimeIsNull(Long connectorId);
+    List<ChargingSessionEntity> findAllByConnectorIdAndEndTimeIsNull(long connectorId);
 
-    boolean existsByConnectorIdAndEndTimeIsNull(Long connectorId);
+    boolean existsByConnectorIdAndEndTimeIsNull(long connectorId);
 
-    ChargingSessionEntity findOneByCustomerIdAndConnectorIdAndVehicleIdAndEndTimeIsNull(Long customerId, Long connectorId, Long vehicleId);
+    ChargingSessionEntity findOneByCustomerIdAndConnectorIdAndVehicleIdAndEndTimeIsNull(long customerId, long connectorId, long vehicleId);
 
-    List<ChargingSessionEntity> findAllByStartTimeGreaterThanAndEndTimeLessThan(Date dateFrom, Date dateTo);
+    List<ChargingSessionEntity> findAllByStartTimeGreaterThanEqualAndEndTimeLessThanEqual(Date dateFrom, Date dateTo);
 
-    List<ChargingSessionEntity> findAllByConnectorId(Long connectorId);
+    List<ChargingSessionEntity> findAllByConnectorId(long connectorId);
+
+    ChargingSessionEntity findOneById(long sessionId);
+
+    List<ChargingSessionEntity> findAllByStartTimeGreaterThanEqual(Date dateFrom);
 }

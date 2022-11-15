@@ -8,10 +8,12 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface ConnectorRepository extends JpaRepository<ConnectorEntity, String> {
-    Optional<ConnectorEntity> findOneByNumber(Integer number);
+public interface ConnectorRepository extends JpaRepository<ConnectorEntity, Long> {
+    Optional<ConnectorEntity> findOneByNumber(int number);
 
-    Optional<ConnectorEntity> findOneByNumberAndChargePointId(Integer number, Long chargePointId);
+    Optional<ConnectorEntity> findOneByNumberAndChargePointId(int number, long chargePointId);
 
-    List<ConnectorEntity> findAllByChargePointId(Long chargePointId);
+    List<ConnectorEntity> findAllByChargePointId(long chargePointId);
+
+    ConnectorEntity findOneById(long providedConnectorId);
 }

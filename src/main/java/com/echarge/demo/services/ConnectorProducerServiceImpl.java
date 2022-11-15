@@ -14,18 +14,18 @@ import javax.transaction.Transactional;
 public class ConnectorProducerServiceImpl implements ConnectorProducerService {
     private static final Logger log = LoggerFactory.getLogger(ChargingEventProducerServiceImpl.class);
     private final ConnectorService connectorService;
-    private final ChargePointService chargePointService;
+    private final ChargePointService ChargePointService;
 
     @Autowired
-    public ConnectorProducerServiceImpl(ConnectorService connectorService, ChargePointService chargePointService) {
+    public ConnectorProducerServiceImpl(ConnectorService connectorService, ChargePointService ChargePointService) {
         this.connectorService = connectorService;
-        this.chargePointService = chargePointService;
+        this.ChargePointService = ChargePointService;
     }
 
     @Transactional
     @Override
     public ConnectorEntity addConnector(ConnectorAddRequest request) {
-        ChargePointEntity chargePoint = chargePointService.findOneByNameAndSn(request.getChargePointName(), request.getChargePointSerialNumber());
+        ChargePointEntity chargePoint = ChargePointService.findOneBySn(request.getChargePointSerialNumber());
         return connectorService.createIfAbsent(request.getConnectorNumber(), chargePoint);
     }
 }

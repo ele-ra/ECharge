@@ -37,11 +37,11 @@ INSERT INTO connector(number, chargepointid) select 111, id from chargepoint whe
 INSERT INTO connector(number, chargepointid) select 3, id from chargepoint where sn = 'sn3';
 INSERT INTO connector(number, chargepointid) select 4, id from chargepoint where sn = 'sn3';
 
-INSERT INTO vehicle(name, registrationplate, meter) VALUES ('v_1', 'rplate1', 0);
-INSERT INTO vehicle(name, registrationplate, meter) VALUES ('v_11', 'rplate11', 0);
-INSERT INTO vehicle(name, registrationplate, meter) VALUES ('v_2CantCharge_noConnectors', 'rplate2', 0);
+INSERT INTO vehicle(name, registrationplate, meter) VALUES ('v_1', 'rplate1', 10);
+INSERT INTO vehicle(name, registrationplate, meter) VALUES ('v_11', 'rplate11', 5);
+INSERT INTO vehicle(name, registrationplate, meter) VALUES ('v_2CantCharge_noConnectors', 'rplate2', 1);
 INSERT INTO vehicle(name, registrationplate, meter) VALUES ('v_3', 'rplate3', 0);
-INSERT INTO vehicle(name, registrationplate, meter) VALUES ('v_4CantCharge_noConnectors', 'rplate4', 0);
+INSERT INTO vehicle(name, registrationplate, meter) VALUES ('v_4CantCharge_noCpoints', 'rplate4', 0);
 
 INSERT INTO rfidtag(name, number, customerid, vehicleid)
 select 'rfidTag1Belongs2fname1', 1, (select id from customer where firstname = 'fname_1Has2cpoints'), (select id from vehicle where name = 'v_1');
@@ -52,7 +52,7 @@ select 'rfidTag2Belongs2fname2', 2, (select id from customer where firstname = '
 INSERT INTO rfidtag(name, number, customerid, vehicleid)
 select 'rfidTag3Belongs2fname3', 3, (select id from customer where firstname = 'fname_3Has1cpoint'), (select id from vehicle where name = 'v_3');
 INSERT INTO rfidtag(name, number, customerid, vehicleid)
-select 'rfidTag3Belongs2fname4', 4, (select id from customer where firstname = 'fname_4HasNocpoints'), (select id from vehicle where name = 'v_4CantCharge_noConnectors');
+select 'rfidTag3Belongs2fname4', 4, (select id from customer where firstname = 'fname_4HasNocpoints'), (select id from vehicle where name = 'v_4CantCharge_noCpoints');
 
 
 

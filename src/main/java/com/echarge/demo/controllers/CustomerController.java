@@ -59,7 +59,7 @@ public class CustomerController {
 
         UserDetails userDetails = (UserDetails) auth.getPrincipal();
         Long userId = ((UserEntity) userDetails).getId();
-        log.info("CUSTOMER_CONTROLLER: Charging event requested by user = {}", userDetails.getUsername());
+        log.info("CUSTOMER_CONTROLLER: Charging event requested by user = {}, request = {}", userDetails.getUsername(), chargingEventRequest);
 
         try {
             return new ResponseEntity<>(chargingEventProducerService.endChargingEvent(userId, chargingEventRequest), HttpStatus.OK);

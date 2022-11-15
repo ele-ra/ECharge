@@ -31,7 +31,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     }
 
     @Override
-    public UserEntity findUserById(Long id) {
+    public UserEntity findUserById(long id) {
         return userRepository.findById(id).orElseThrow((
                 () -> new UsernameNotFoundException(format("User with id - %d, not found", id))));
     }

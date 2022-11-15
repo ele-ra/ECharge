@@ -12,7 +12,7 @@ public class ChargingSessionFilter {
     private static final Date MIN_DATE = new Date(Long.MIN_VALUE);
     private static final Date MAX_DATE = new Date(Long.MAX_VALUE);
     private Date dateFrom = MIN_DATE;
-    private Date dateTo = MAX_DATE;
+    private Date dateTo = null;
     private String order;
 
     public ChargingSessionFilter(String thatDateFrom, String thatDateTo) throws IllegalAccessException {

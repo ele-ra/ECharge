@@ -18,7 +18,7 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
-    public CustomerEntity findOneByUserId(Long userId) {
+    public CustomerEntity findOneByUserId(long userId) {
         return customerRepository.findOneByUserId(userId).orElseThrow((
                 () -> new NoSuchElementException("There are no customers associated with a user")));
     }

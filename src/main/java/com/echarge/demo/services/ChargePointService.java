@@ -1,17 +1,14 @@
 package com.echarge.demo.services;
 
 import com.echarge.demo.entity.ChargePointEntity;
-import com.echarge.demo.entity.ChargingSessionEntity;
-import com.echarge.demo.entity.CustomerEntity;
 
 import java.util.Collection;
 
 public interface ChargePointService {
-    ChargePointEntity findOneByNameAndSn(String name, String sn);
+    ChargePointEntity findOneBySn(String sn);
+    Collection<ChargePointEntity> findAllByCustomerId(long customerId);
 
-    Collection<ChargePointEntity> findAllByCustomerId(Long customerId);
+    boolean belongsToCustomer(long customer, long providedChargePointId);
 
-    boolean belongsToCustomer(CustomerEntity customer, ChargePointEntity providedChargePoint);
-
-    void fetchErrorMessageIfPresent(ChargingSessionService chargingSessionService, ChargingSessionEntity chargingSession);
+    void fetchErrorMessageIfPresent(ChargingSessionService chargingSessionService, long sessionId);
 }

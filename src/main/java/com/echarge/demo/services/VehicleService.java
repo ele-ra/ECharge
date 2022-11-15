@@ -5,8 +5,8 @@ import com.echarge.demo.entity.VehicleEntity;
 public interface VehicleService {
     VehicleEntity findOneByNameAndRegistrationPlate(String name, String registrationPlate);
 
-    VehicleEntity findOneById(Long vehicleId);
+    VehicleEntity findOneById(long vehicleId);
 
-    void updateMeter(Long vehicleId, Double newMeter);
+    void updateMeter(long vehicleId, double newMeter);
 }
 

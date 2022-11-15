@@ -22,19 +22,19 @@ public class VehicleServiceImpl implements VehicleService {
 
     @Override
     public VehicleEntity findOneByNameAndRegistrationPlate(String name, String registrationPlate) {
-        return vehicleRepository.findOneByNameAndRegistrationPlate(name, registrationPlate).orElseThrow((
+        return vehicleRepository.findOneByNameIgnoreCaseAndRegistrationPlateIgnoreCase(name, registrationPlate).orElseThrow((
                 () -> new NoSuchElementException(format("Vehicle with name = %s and Registration Plate = %s not found", name, registrationPlate))));
     }
 
     @Override
-    public VehicleEntity findOneById(Long vehicleId) {
+    public VehicleEntity findOneById(long vehicleId) {
         return vehicleRepository.findOneById(vehicleId).orElseThrow((
                 () -> new NoSuchElementException(format("Vehicle with id = %d not found", vehicleId))));
     }
 
     @Transactional
     @Override
-    public void updateMeter(Long vehicleId, Double newMeter) {
+    public void updateMeter(long vehicleId, double newMeter) {
         vehicleRepository.findOneById(vehicleId).orElseThrow((
                         () -> new NoSuchElementException(format("Vehicle with id = %d not found", vehicleId))))
                 .setMeter(newMeter);

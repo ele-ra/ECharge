@@ -23,8 +23,8 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @Configuration
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class WebSecurityConfig {
-    public static final String ROLE_USER = "Customer";
-    public static final String ROLE_ADMIN = "Admin";
+    public static final String ROLE_USER = "CUSTOMER";
+    public static final String ROLE_ADMIN = "ADMIN";
     @Autowired
     UserServiceImpl userDetailsService;
     @Autowired

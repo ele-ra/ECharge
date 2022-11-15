@@ -27,24 +27,24 @@ public class ChargingEventProducerServiceImpl implements ChargingEventProducerSe
     private final ConnectorService connectorService;
     private final VehicleService vehicleService;
     private final RFIDTagService rfidTagService;
-    private final ChargePointService chargePointService;
+    private final ChargePointService ChargePointService;
     private final ChargingSessionService chargingSessionService;
 
 
     @Autowired
-    public ChargingEventProducerServiceImpl(ChargePointRepository chargePointRepository, ChargingSessionRepository chargingSessionReporitory, CustomerService customerService, ConnectorService connectorService, VehicleService vehicleService, RFIDTagService rfidTagService, ChargePointService chargePointService, ChargingSessionService chargingSessionService) {
+    public ChargingEventProducerServiceImpl(ChargePointRepository chargePointRepository, ChargingSessionRepository chargingSessionReporitory, CustomerService customerService, ConnectorService connectorService, VehicleService vehicleService, RFIDTagService rfidTagService, ChargePointService ChargePointService, ChargingSessionService chargingSessionService) {
         this.chargingSessionReporitory = chargingSessionReporitory;
         this.customerService = customerService;
         this.connectorService = connectorService;
         this.vehicleService = vehicleService;
         this.rfidTagService = rfidTagService;
-        this.chargePointService = chargePointService;
+        this.ChargePointService = ChargePointService;
         this.chargingSessionService = chargingSessionService;
     }
 
     @Transactional
     @Override
-    public ChargingRequestResponse startChargingEvent(Long userId, ChargingEventRequest request) throws IllegalAccessException {
+    public ChargingRequestResponse startChargingEvent(long userId, ChargingEventRequest request) throws IllegalAccessException {
         ChargingEventProperties chargingEventProp = new ChargingEventProperties(userId, request);
         ChargingSessionEntity session = startIfAbsent(chargingEventProp);
 
@@ -77,13 +77,14 @@ public class ChargingEventProducerServiceImpl implements ChargingEventProducerSe
                     chargingEventProp.rfidTag.getNumber()));
         }
 
-        return chargingSessionService.startSession(chargingEventProp.customer, chargingEventProp.connector, vehicle);
+        return chargingSessionService.startSession(chargingEventProp.customer.getId(),
+                chargingEventProp.connector.getId(), vehicle);
     }
 
 
     @Transactional
     @Override
-    public ChargingRequestResponse endChargingEvent(Long userId, ChargingEventRequest request) throws IllegalAccessException {
+    public ChargingRequestResponse endChargingEvent(long userId, ChargingEventRequest request) throws IllegalAccessException {
         ChargingEventProperties chargingEventProp = new ChargingEventProperties(userId, request);
 
         ChargingSessionEntity session = endIfExists(chargingEventProp);
@@ -111,8 +112,8 @@ public class ChargingEventProducerServiceImpl implements ChargingEventProducerSe
                     chargingEventProp.chargePoint.getName(), chargingEventProp.chargePoint.getSn(),
                     chargingEventProp.connector.getNumber(), chargingEventProp.rfidTag.getName(), chargingEventProp.rfidTag.getNumber()));
         }
-        chargePointService.fetchErrorMessageIfPresent(chargingSessionService, chargingSession);
-        ChargingSessionEntity session = chargingSessionService.endSession(chargingSession);
+        ChargePointService.fetchErrorMessageIfPresent(chargingSessionService, chargingSession.getId());
+        ChargingSessionEntity session = chargingSessionService.endSession(chargingSession.getId());
         vehicleService.updateMeter(chargingSession.getVehicleId(), chargingSession.getEndMeter());
         return session;
     }
@@ -126,21 +127,21 @@ public class ChargingEventProducerServiceImpl implements ChargingEventProducerSe
 
         public ChargingEventProperties(Long userId, ChargingEventRequest request) throws IllegalAccessException {
             customer = customerService.findOneByUserId(userId);
-            chargePoint = chargePointService.findOneByNameAndSn(request.getChargePointName(), request.getChargePointSerialNumber());
+            chargePoint = ChargePointService.findOneBySn(request.getChargePointSerialNumber());
 
-            if (!chargePointService.belongsToCustomer(customer, chargePoint))
+            if (!ChargePointService.belongsToCustomer(customer.getId(), chargePoint.getId()))
                 throw new IllegalAccessException(format("Provided Charge Point (name = %s, Serial Number = %s) " +
                         "doesn't belong to requested customer", chargePoint.getName(), chargePoint.getSn()));
 
             connector = connectorService.findOneByNumber(request.getConnectorNumber());
 
-            if (!connectorService.belongsToChargePoint(chargePoint, connector))
+            if (!connectorService.belongsToChargePoint(chargePoint.getId(), connector.getId()))
                 throw new IllegalArgumentException(format("Provided Connector (number = %d) " +
                         "doesn't belong to requested Charge Point", connector.getNumber()));
 
-            rfidTag = rfidTagService.findOneByNameAndNumber(request.getRdfidTagName(), request.getRdfidTagNumber());
+            rfidTag = rfidTagService.findOneByNumber(request.getRdfidTagNumber());
 
-            if (!rfidTagService.belongsToCustomer(customer, rfidTag))
+            if (!rfidTagService.belongsToCustomer(customer.getId(), rfidTag.getId()))
                 throw new IllegalAccessException(format("Provided RDFID Tag (name = %s, Number = %s) " +
                         "doesn't belong to requested customer", rfidTag.getName(), rfidTag.getNumber()));
         }

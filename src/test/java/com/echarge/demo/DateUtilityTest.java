@@ -15,8 +15,19 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 class DateUtilityTest {
 
     @Test
-    void dateInFormatOtherThanKnownResultsInException() {
-        assertThrows(IllegalArgumentException.class, () -> DateUtility.getDateIfValid("20000920"));
+    void dateInFormatOtherThanKnownIsNotAccepted() {
+        assertThrows(IllegalArgumentException.class, () -> DateUtility.getDateIfValid("2000-14-01 14:30"));
+    }
+
+    @Test
+    void dateInFormatOtherThanKnownIsNotAccep11ted() {
+        assertThrows(IllegalArgumentException.class, () -> DateUtility.getDateIfValid("2000-30-30"));
+    }
+
+
+    @Test
+    void invalidDateIsNotAccepted() {
+        assertThrows(IllegalArgumentException.class, () -> DateUtility.getDateIfValid("2000-02-30 14:30"));
     }
 
     @Test

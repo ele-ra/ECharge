@@ -1,8 +1,6 @@
 package com.echarge.demo.services;
 
 import com.echarge.demo.entity.ChargingSessionEntity;
-import com.echarge.demo.entity.ConnectorEntity;
-import com.echarge.demo.entity.CustomerEntity;
 import com.echarge.demo.entity.VehicleEntity;
 import com.echarge.demo.repository.ChargingSessionRepository;
 import com.echarge.demo.services.helper.ChargingSessionFilter;
@@ -31,7 +29,7 @@ public class ChargingSessionServiceImpl implements ChargingSessionService {
     }
 
     @Override
-    public ChargingSessionEntity findOneByCustomerIdAndConnectorIdAndVehicleId(Long customerId, Long connectorId, Long vehicleId) {
+    public ChargingSessionEntity findOneByCustomerIdAndConnectorIdAndVehicleId(long customerId, long connectorId, long vehicleId) {
         return chargingSessionRepository.findOneByCustomerIdAndConnectorIdAndVehicleId(customerId, connectorId, vehicleId)
                 .orElseThrow((
                         () ->
@@ -39,37 +37,37 @@ public class ChargingSessionServiceImpl implements ChargingSessionService {
     }
 
     @Override
-    public ChargingSessionEntity findOneByCustomerIdAndConnectorIdAndVehicleIdAndEndTimeIsNull(Long customerId, Long connectorId, Long vehicleId) {
+    public ChargingSessionEntity findOneByCustomerIdAndConnectorIdAndVehicleIdAndEndTimeIsNull(long customerId, long connectorId, long vehicleId) {
         return chargingSessionRepository.findOneByCustomerIdAndConnectorIdAndVehicleIdAndEndTimeIsNull(customerId, connectorId, vehicleId);
     }
 
     @Override
-    public List<ChargingSessionEntity> findAllByCustomerId(Long customerId) {
+    public List<ChargingSessionEntity> findAllByCustomerId(long customerId) {
         return chargingSessionRepository.findAllByCustomerId(customerId);
     }
 
     @Override
-    public List<ChargingSessionEntity> findAllByCustomerIdAndConnectorId(Long customerId, Long connectorId) {
+    public List<ChargingSessionEntity> findAllByCustomerIdAndConnectorId(long customerId, long connectorId) {
         return chargingSessionRepository.findAllByCustomerIdAndConnectorId(customerId, connectorId);
     }
 
     @Override
-    public List<ChargingSessionEntity> findAllByCustomerIdAndVehicleId(Long customerId, Long vehicleId) {
+    public List<ChargingSessionEntity> findAllByCustomerIdAndVehicleId(long customerId, long vehicleId) {
         return chargingSessionRepository.findAllByCustomerIdAndVehicleId(customerId, vehicleId);
     }
 
 
     @Override
-    public boolean isConnectorBusy(Long connectorId) {
+    public boolean isConnectorBusy(long connectorId) {
         return chargingSessionRepository.existsByConnectorIdAndEndTimeIsNull(connectorId);
     }
 
     @Override
-    public ChargingSessionEntity startSession(CustomerEntity customer, ConnectorEntity connector, VehicleEntity vehicle) {
+    public ChargingSessionEntity startSession(long customerId, long connectorId, VehicleEntity vehicle) {
         ChargingSessionEntity session = new ChargingSessionEntity();
 
-        session.setCustomerId(customer.getId());
-        session.setConnectorId(connector.getId());
+        session.setCustomerId(customerId);
+        session.setConnectorId(connectorId);
         session.setVehicleId(vehicle.getId());
         session.setStartMeter(vehicle.getMeter());
         session.setStartTime(Date.from(Instant.now()));
@@ -79,8 +77,9 @@ public class ChargingSessionServiceImpl implements ChargingSessionService {
     }
 
     @Override
-    public ChargingSessionEntity endSession(ChargingSessionEntity session) {
+    public ChargingSessionEntity endSession(long sessionId) {
 
+        ChargingSessionEntity session = chargingSessionRepository.findOneById(sessionId);
         session.setEndTime(Date.from(Instant.now()));
 
         Date startTime = session.getStartTime();
@@ -94,8 +93,8 @@ public class ChargingSessionServiceImpl implements ChargingSessionService {
     }
 
     @Transactional
-    public void receiveMessageFromChargePoint(String message, ChargingSessionEntity session) {
-        session.setMessage(message);
+    public void receiveMessageFromChargePoint(String message, long sessionId) {
+        chargingSessionRepository.findOneById(sessionId).setMessage(message);
     }
 
     private long calculateChargingTimeInMinutes(Date startTime, Date endTime) {
@@ -103,13 +102,22 @@ public class ChargingSessionServiceImpl implements ChargingSessionService {
         return (dif / 1000) % 60;
     }
 
-    private Double calculateMeterValueIncrease(Double startMeter, long chargingTime) {
-        return (startMeter + 0.1) * chargingTime * CHARGE_COEFFICIENT;
+    private Double calculateMeterValueIncrease(double startMeter, long chargingTime) {
+        double newMeter = startMeter - chargingTime * CHARGE_COEFFICIENT;
+        return newMeter >= 0 ? newMeter : 0;
     }
 
     @Override
     public Collection<ChargingSessionEntity> findAllByTimeBetween(ChargingSessionFilter filter) {
-        return chargingSessionRepository.findAllByStartTimeGreaterThanAndEndTimeLessThan(filter.getDateFrom(), filter.getDateTo());
+        if (filter.getDateTo() == null)
+            return chargingSessionRepository.findAllByStartTimeGreaterThanEqual(filter.getDateFrom());
+        else
+            return chargingSessionRepository.findAllByStartTimeGreaterThanEqualAndEndTimeLessThanEqual(filter.getDateFrom(), filter.getDateTo());
+    }
+
+    @Override
+    public ChargingSessionEntity findOneById(long sessionId) {
+        return chargingSessionRepository.findOneById(sessionId);
     }
 
 }

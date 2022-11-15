@@ -33,14 +33,14 @@ public class AdminController {
     private static final Logger log = LoggerFactory.getLogger(AdminController.class);
 
     private final ChargingEventProducerService chargingEventProducerService;
-    private final ChargePointService chargePointService;
+    private final ChargePointService ChargePointService;
     private final ChargingSessionService chargingSessionService;
     private final ConnectorProducerService connectorProducerService;
 
     @Autowired
-    public AdminController(ChargingEventProducerService chargingEventProducerService, ChargePointService chargePointService, ChargingSessionService chargingSessionService, ConnectorProducerService connectorProducerService) {
+    public AdminController(ChargingEventProducerService chargingEventProducerService, ChargePointService ChargePointService, ChargingSessionService chargingSessionService, ConnectorProducerService connectorProducerService) {
         this.chargingEventProducerService = chargingEventProducerService;
-        this.chargePointService = chargePointService;
+        this.ChargePointService = ChargePointService;
         this.chargingSessionService = chargingSessionService;
         this.connectorProducerService = connectorProducerService;
     }
@@ -52,8 +52,6 @@ public class AdminController {
     public ResponseEntity<ConnectorEntity> createConnector(@Valid @RequestBody ConnectorAddRequest connectorAddrequest, Authentication auth) {
 
         UserDetails userDetails = (UserDetails) auth.getPrincipal();
-/*        Collection<? extends GrantedAuthority> authorities = ((UserEntity) userDetails).getAuthorities();
-        if (authorities.)*/
         log.info("ADMIN_CONTROLLER: Adding connector requested by user = {}", userDetails.getUsername());
         return new ResponseEntity<>(connectorProducerService.addConnector(connectorAddrequest), HttpStatus.OK);
     }
@@ -62,10 +60,8 @@ public class AdminController {
             value = "/chargingsessions",
             produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Collection<ChargingSessionEntity>> getChargingSessions(@RequestParam(value = "from", required = false) String dateFrom,
-                                                                                 @RequestParam(value = "to", required = false) String dateTo, Authentication auth
+                                                                                 @RequestParam(value = "to", required = false) String dateTo
     ) {
-        UserDetails userDetails = (UserDetails) auth.getPrincipal();
-
         log.info("ADMIN_CONTROLLER: Get chargingsession by: from {}, to {}", dateFrom, dateTo);
         try {
             ChargingSessionFilter sessionFilter = new ChargingSessionFilter(dateFrom, dateTo);

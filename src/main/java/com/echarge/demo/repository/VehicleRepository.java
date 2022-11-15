@@ -7,10 +7,10 @@ import org.springframework.stereotype.Repository;
 import java.util.Optional;
 
 @Repository
-public interface VehicleRepository extends JpaRepository<VehicleEntity, String> {
+public interface VehicleRepository extends JpaRepository<VehicleEntity, Long> {
 
-    Optional<VehicleEntity> findOneByNameAndRegistrationPlate(String name, String registrationPlate);
+    Optional<VehicleEntity> findOneByNameIgnoreCaseAndRegistrationPlateIgnoreCase(String name, String registrationPlate);
 
-    Optional<VehicleEntity> findOneById(Long vehicleId);
+    Optional<VehicleEntity> findOneById(long vehicleId);
 }
 

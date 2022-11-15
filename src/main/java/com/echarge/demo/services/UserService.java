@@ -8,5 +8,5 @@ public interface UserService {
 
     UserEntity fundUserByName(String username);
 
-    UserEntity findUserById(Long id);
+    UserEntity findUserById(long id);
 }

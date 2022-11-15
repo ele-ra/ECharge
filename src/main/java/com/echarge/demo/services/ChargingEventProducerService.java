@@ -4,7 +4,7 @@ import com.echarge.demo.payload.request.ChargingEventRequest;
 import com.echarge.demo.payload.response.ChargingRequestResponse;
 
 public interface ChargingEventProducerService {
-    ChargingRequestResponse startChargingEvent(Long userId, ChargingEventRequest request) throws IllegalAccessException;
+    ChargingRequestResponse startChargingEvent(long userId, ChargingEventRequest request) throws IllegalAccessException;
 
-    ChargingRequestResponse endChargingEvent(Long userId, ChargingEventRequest request) throws IllegalAccessException;
+    ChargingRequestResponse endChargingEvent(long userId, ChargingEventRequest request) throws IllegalAccessException;
 }

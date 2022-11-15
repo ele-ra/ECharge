@@ -6,13 +6,13 @@ import com.echarge.demo.entity.ConnectorEntity;
 import java.util.Collection;
 
 public interface ConnectorService {
-    ConnectorEntity findOneByNumber(Integer number);
+    ConnectorEntity findOneByNumber(int number);
 
-    ConnectorEntity findOneByNumberAndChargePointId(Integer name, Long chargePointId);
+    ConnectorEntity findOneByNumberAndChargePointId(int number, long chargePointId);
 
-    Collection<ConnectorEntity> findAllByChargePointId(Long chargePointId);
+    Collection<ConnectorEntity> findAllByChargePointId(long chargePointId);
 
-    boolean belongsToChargePoint(ChargePointEntity chargePoint, ConnectorEntity providedConnector);
+    boolean belongsToChargePoint(long chargePointId, long providedConnectorId);
 
-    ConnectorEntity createIfAbsent(Integer number, ChargePointEntity chargePoint);
+    ConnectorEntity createIfAbsent(int number, ChargePointEntity chargePoint);
 }

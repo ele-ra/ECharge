@@ -25,29 +25,30 @@ public class ConnectorServiceImpl implements ConnectorService {
     }
 
     @Override
-    public ConnectorEntity findOneByNumber(Integer number) {
+    public ConnectorEntity findOneByNumber(int number) {
         return connectorRepository.findOneByNumber(number).orElseThrow((
                 () -> new NoSuchElementException(format("Connector with number = %s not found", number))));
     }
 
     @Override
-    public ConnectorEntity findOneByNumberAndChargePointId(Integer number, Long chargePointId) {
+    public ConnectorEntity findOneByNumberAndChargePointId(int number, long chargePointId) {
         return connectorRepository.findOneByNumberAndChargePointId(number, chargePointId).orElseThrow((
                 () -> new NoSuchElementException(format("Connector with number = %s not found for a given chargePointId", number))));
     }
 
     @Override
-    public Collection<ConnectorEntity> findAllByChargePointId(Long chargePointId) {
+    public Collection<ConnectorEntity> findAllByChargePointId(long chargePointId) {
         return connectorRepository.findAllByChargePointId(chargePointId);
     }
 
     @Override
-    public boolean belongsToChargePoint(ChargePointEntity chargePoint, ConnectorEntity providedConnector) {
-        return connectorRepository.findAllByChargePointId(chargePoint.getId()).contains(providedConnector);
+    public boolean belongsToChargePoint(long chargePointId, long providedConnectorId) {
+        return connectorRepository.findAllByChargePointId(chargePointId)
+                .contains(connectorRepository.findOneById(providedConnectorId));
     }
 
     @Override
-    public ConnectorEntity createIfAbsent(Integer number, ChargePointEntity chargePoint) {
+    public ConnectorEntity createIfAbsent(int number, ChargePointEntity chargePoint) {
         connectorRepository.findOneByNumberAndChargePointId(number, chargePoint.getId()).ifPresent(
                 (x) -> {
                     throw new NoSuchElementException(format("Connector with number = %s and Charge Point (name = %s, Serial Number = %s) already exists",

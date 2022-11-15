@@ -1,8 +1,6 @@
 package com.echarge.demo.services;
 
 import com.echarge.demo.entity.ChargingSessionEntity;
-import com.echarge.demo.entity.ConnectorEntity;
-import com.echarge.demo.entity.CustomerEntity;
 import com.echarge.demo.entity.VehicleEntity;
 import com.echarge.demo.services.helper.ChargingSessionFilter;
 
@@ -10,23 +8,25 @@ import java.util.Collection;
 
 
 public interface ChargingSessionService {
-    ChargingSessionEntity findOneByCustomerIdAndConnectorIdAndVehicleId(Long customerId, Long connectorId, Long vehicleId);
+    ChargingSessionEntity findOneByCustomerIdAndConnectorIdAndVehicleId(long customerId, long connectorId, long vehicleId);
 
-    ChargingSessionEntity findOneByCustomerIdAndConnectorIdAndVehicleIdAndEndTimeIsNull(Long customerId, Long connectorId, Long vehicleId);
+    ChargingSessionEntity findOneByCustomerIdAndConnectorIdAndVehicleIdAndEndTimeIsNull(long customerId, long connectorId, long vehicleId);
 
-    Collection<ChargingSessionEntity> findAllByCustomerId(Long customerId);
+    Collection<ChargingSessionEntity> findAllByCustomerId(long customerId);
 
-    Collection<ChargingSessionEntity> findAllByCustomerIdAndConnectorId(Long customerId, Long connectorId);
+    Collection<ChargingSessionEntity> findAllByCustomerIdAndConnectorId(long customerId, long connectorId);
 
-    Collection<ChargingSessionEntity> findAllByCustomerIdAndVehicleId(Long customerId, Long vehicleId);
+    Collection<ChargingSessionEntity> findAllByCustomerIdAndVehicleId(long customerId, long vehicleId);
 
-    boolean isConnectorBusy(Long connectorId);
+    boolean isConnectorBusy(long connectorId);
 
-    ChargingSessionEntity startSession(CustomerEntity customer, ConnectorEntity connector, VehicleEntity vehicle);
+    ChargingSessionEntity startSession(long customerId, long connectorId, VehicleEntity vehicleId);
 
-    ChargingSessionEntity endSession(ChargingSessionEntity session);
+    ChargingSessionEntity endSession(long sessionId);
 
-    void receiveMessageFromChargePoint(String message, ChargingSessionEntity session);
+    void receiveMessageFromChargePoint(String message, long sessionId);
 
     Collection<ChargingSessionEntity> findAllByTimeBetween(ChargingSessionFilter filter);
+
+    ChargingSessionEntity findOneById(long chargingSessionId);
 }

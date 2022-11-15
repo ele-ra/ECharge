@@ -30,7 +30,7 @@ public class RoleServiceImpl implements RoleService {
 
     @Override
     @Cacheable(value = "rolesById")
-    public RoleEntity findOneById(Long id) {
+    public RoleEntity findOneById(long id) {
         return roleRepository.findOneById(id);
     }
 }

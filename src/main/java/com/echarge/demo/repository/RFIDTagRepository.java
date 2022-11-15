@@ -8,11 +8,15 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface RFIDTagRepository extends JpaRepository<RFIDTagEntity, String> {
+public interface RFIDTagRepository extends JpaRepository<RFIDTagEntity, Long> {
 
-    Optional<RFIDTagEntity> findOneByNameAndNumber(String name, Integer number);
+    Optional<RFIDTagEntity> findOneByNameAndNumber(String name, int number);
 
-    List<RFIDTagEntity> findAllByCustomerId(Long customerId);
+    List<RFIDTagEntity> findAllByCustomerId(long customerId);
 
-    Optional<RFIDTagEntity> findOneByVehicleId(Long vehicleId);
+    Optional<RFIDTagEntity> findOneByVehicleId(long vehicleId);
+
+    RFIDTagEntity findOneById(long rfidTagId);
+
+    Optional<RFIDTagEntity> findOneByNumber(int number);
 }

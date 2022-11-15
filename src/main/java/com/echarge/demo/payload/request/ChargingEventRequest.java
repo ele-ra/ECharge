@@ -7,17 +7,13 @@ import javax.validation.constraints.NotBlank;
 
 @Data
 public class ChargingEventRequest {
-    @NotBlank
-    private String chargePointName;
-
+    // Will only search by unique values (for charge point - sn, for rdfidtag - number)
+    // Expected workflow: user enters name, gets list of all matching, from the list clarifies the exact item, choosing sn or number
     @NotBlank
     private String chargePointSerialNumber;
 
     @Digits(integer = 5, fraction = 0, message = "Invalid request")
     private Integer connectorNumber; // Assume user connects to a certain one
-
-    @NotBlank
-    private String rdfidTagName;
 
     @Digits(integer = 5, fraction = 0, message = "Invalid request")
     private Integer rdfidTagNumber;
