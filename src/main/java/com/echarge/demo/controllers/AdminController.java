@@ -48,11 +48,11 @@ public class AdminController {
     @PostMapping(
             value = "/connector/create",
             produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<ConnectorEntity> createConnector(@Valid @RequestBody ConnectorAddRequest connectorAddrequest, Authentication auth) {
+    public ResponseEntity<ConnectorEntity> createConnector(@Valid @RequestBody ConnectorAddRequest connectorAddRequest, Authentication auth) {
 
         UserDetails userDetails = (UserDetails) auth.getPrincipal();
         log.info("ADMIN_CONTROLLER: Adding connector requested by user = {}", userDetails.getUsername());
-        return new ResponseEntity<>(connectorProducerService.addConnector(connectorAddrequest), HttpStatus.OK);
+        return new ResponseEntity<>(connectorProducerService.addConnector(connectorAddRequest), HttpStatus.OK);
     }
 
     @GetMapping(
