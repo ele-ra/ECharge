@@ -26,7 +26,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
     @Override
     public UserEntity fundUserByName(String name) {
-        return userRepository.findByUsernameIgnoreCase(name).orElseThrow((
+        return userRepository.findOneByUsernameIgnoreCase(name).orElseThrow((
                 () -> new UsernameNotFoundException(format("User with username - %s, not found", name))));
     }
 

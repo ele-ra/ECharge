@@ -1,11 +1,12 @@
 package com.echarge.demo.utils;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.time.*;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.ResolverStyle;
-import java.util.*;
+import java.util.Arrays;
+import java.util.Date;
 
 import static java.lang.String.format;
 
@@ -13,7 +14,7 @@ public class DateUtility {
     private DateUtility() {
     }
 
-    private static final String[] VALID_DATE_FORMATS = new String [] {
+    private static final String[] VALID_DATE_FORMATS = new String[]{
             "uuuu/MM/dd", "uuuu/MM/dd HH:mm", "uuuu-MM-dd", "uuuu-MM-dd HH:mm"
     };
 

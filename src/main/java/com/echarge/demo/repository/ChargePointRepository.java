@@ -10,8 +10,6 @@ import java.util.Optional;
 @Repository
 public interface ChargePointRepository extends JpaRepository<ChargePointEntity, Long> {
 
-    Optional<ChargePointEntity> findOneByNameAndSn(String name, String sn);
-
     List<ChargePointEntity> findAllByCustomerId(long customerId);
 
     Optional<ChargePointEntity> findOneBySnIgnoreCase(String sn);

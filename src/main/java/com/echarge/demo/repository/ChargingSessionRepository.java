@@ -18,15 +18,11 @@ public interface ChargingSessionRepository extends JpaRepository<ChargingSession
 
     List<ChargingSessionEntity> findAllByCustomerIdAndVehicleId(long customerId, long vehicleId);
 
-    List<ChargingSessionEntity> findAllByConnectorIdAndEndTimeIsNull(long connectorId);
-
     boolean existsByConnectorIdAndEndTimeIsNull(long connectorId);
 
     ChargingSessionEntity findOneByCustomerIdAndConnectorIdAndVehicleIdAndEndTimeIsNull(long customerId, long connectorId, long vehicleId);
 
     List<ChargingSessionEntity> findAllByStartTimeGreaterThanEqualAndEndTimeLessThanEqual(Date dateFrom, Date dateTo);
-
-    List<ChargingSessionEntity> findAllByConnectorId(long connectorId);
 
     ChargingSessionEntity findOneById(long sessionId);
 

@@ -10,8 +10,6 @@ import java.util.Optional;
 @Repository
 public interface RFIDTagRepository extends JpaRepository<RFIDTagEntity, Long> {
 
-    Optional<RFIDTagEntity> findOneByNameAndNumber(String name, int number);
-
     List<RFIDTagEntity> findAllByCustomerId(long customerId);
 
     Optional<RFIDTagEntity> findOneByVehicleId(long vehicleId);
