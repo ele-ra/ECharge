@@ -3,6 +3,7 @@ package com.echarge.demo.services;
 import com.echarge.demo.entity.VehicleEntity;
 import com.echarge.demo.repository.VehicleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -25,7 +26,7 @@ public class VehicleServiceImpl implements VehicleService {
         return vehicleRepository.findOneByNameIgnoreCaseAndRegistrationPlateIgnoreCase(name, registrationPlate).orElseThrow((
                 () -> new NoSuchElementException(format("Vehicle with name = %s and Registration Plate = %s not found", name, registrationPlate))));
     }
-
+    @Cacheable(value = "vehicleById")
     @Override
     public VehicleEntity findOneById(long vehicleId) {
         return vehicleRepository.findOneById(vehicleId).orElseThrow((

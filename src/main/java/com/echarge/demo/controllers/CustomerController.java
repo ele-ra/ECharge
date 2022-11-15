@@ -42,7 +42,7 @@ public class CustomerController {
 
         UserDetails userDetails = (UserDetails) auth.getPrincipal();
         Long userId = ((UserEntity) userDetails).getId();
-        log.info("CUSTOMER_CONTROLLER: Charging event requested by user = {}", userDetails.getUsername());
+        log.info("CUSTOMER_CONTROLLER: Charging event start requested by user = {}", userDetails.getUsername());
 
         try {
             return new ResponseEntity<>(chargingEventProducerService.startChargingEvent(userId, chargingEventRequest), HttpStatus.OK);
@@ -59,7 +59,7 @@ public class CustomerController {
 
         UserDetails userDetails = (UserDetails) auth.getPrincipal();
         Long userId = ((UserEntity) userDetails).getId();
-        log.info("CUSTOMER_CONTROLLER: Charging event requested by user = {}, request = {}", userDetails.getUsername(), chargingEventRequest);
+        log.info("CUSTOMER_CONTROLLER: Charging event end requested by user = {}, request = {}", userDetails.getUsername(), chargingEventRequest);
 
         try {
             return new ResponseEntity<>(chargingEventProducerService.endChargingEvent(userId, chargingEventRequest), HttpStatus.OK);

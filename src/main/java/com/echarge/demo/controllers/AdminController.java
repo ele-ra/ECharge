@@ -21,7 +21,10 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.transaction.Transactional;
 import javax.validation.Valid;
+import java.time.Duration;
+import java.time.Instant;
 import java.util.Collection;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/admin")
@@ -32,15 +35,11 @@ public class AdminController {
 
     private static final Logger log = LoggerFactory.getLogger(AdminController.class);
 
-    private final ChargingEventProducerService chargingEventProducerService;
-    private final ChargePointService ChargePointService;
     private final ChargingSessionService chargingSessionService;
     private final ConnectorProducerService connectorProducerService;
 
     @Autowired
-    public AdminController(ChargingEventProducerService chargingEventProducerService, ChargePointService ChargePointService, ChargingSessionService chargingSessionService, ConnectorProducerService connectorProducerService) {
-        this.chargingEventProducerService = chargingEventProducerService;
-        this.ChargePointService = ChargePointService;
+    public AdminController(ChargingSessionService chargingSessionService, ConnectorProducerService connectorProducerService) {
         this.chargingSessionService = chargingSessionService;
         this.connectorProducerService = connectorProducerService;
     }
@@ -62,10 +61,13 @@ public class AdminController {
     public ResponseEntity<Collection<ChargingSessionEntity>> getChargingSessions(@RequestParam(value = "from", required = false) String dateFrom,
                                                                                  @RequestParam(value = "to", required = false) String dateTo
     ) {
+        Instant start = Instant.now();
         log.info("ADMIN_CONTROLLER: Get chargingsession by: from {}, to {}", dateFrom, dateTo);
         try {
             ChargingSessionFilter sessionFilter = new ChargingSessionFilter(dateFrom, dateTo);
-            return new ResponseEntity<>(chargingSessionService.findAllByTimeBetween(sessionFilter), HttpStatus.OK);
+            Collection <ChargingSessionEntity> sessions = chargingSessionService.findAllByTimeBetween(sessionFilter);
+            log.info("ADMIN_CONTROLLER: Elapsed time in ms = {}", Duration.between(start, Instant.now()).toMillis());
+            return new ResponseEntity<>(sessions, HttpStatus.OK);
         } catch (IllegalAccessException e) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }

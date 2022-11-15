@@ -25,6 +25,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class WebSecurityConfig {
     public static final String ROLE_USER = "CUSTOMER";
     public static final String ROLE_ADMIN = "ADMIN";
+
     @Autowired
     UserServiceImpl userDetailsService;
     @Autowired
@@ -65,7 +66,7 @@ public class WebSecurityConfig {
 
                 .antMatchers(AUTH_WHITELIST).permitAll()
 
-                .antMatchers(adminPages).hasAnyAuthority(ROLE_ADMIN)
+                .antMatchers(ADMIN_PAGES).hasAnyAuthority(ROLE_ADMIN)
                 .anyRequest().authenticated();
 
         /** Not for Production, this is to allow using h2-console */
@@ -79,7 +80,7 @@ public class WebSecurityConfig {
         return http.build();
     }
 
-    private static final String adminPages = "/api/admin/**";
+    private static final String ADMIN_PAGES = "/api/admin/**";
     private static final String[] AUTH_WHITELIST = {
             // Swagger
             "/v2/api-docs",
@@ -94,5 +95,4 @@ public class WebSecurityConfig {
             "/h2-console/**",
             "/api/test/**"
     };
-
 }

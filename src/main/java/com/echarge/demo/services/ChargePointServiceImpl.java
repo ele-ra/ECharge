@@ -4,6 +4,7 @@ import com.echarge.demo.entity.ChargePointEntity;
 import com.echarge.demo.entity.ChargingSessionEntity;
 import com.echarge.demo.repository.ChargePointRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
@@ -21,6 +22,7 @@ public class ChargePointServiceImpl implements ChargePointService {
         this.chargePointRepository = chargePointRepository;
     }
 
+    @Cacheable(value = "chargePointBySn")
     @Override
     public ChargePointEntity findOneBySn(String sn) {
         return chargePointRepository.findOneBySnIgnoreCase(sn).orElseThrow((

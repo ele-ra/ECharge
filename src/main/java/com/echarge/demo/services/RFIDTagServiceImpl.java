@@ -3,6 +3,7 @@ package com.echarge.demo.services;
 import com.echarge.demo.entity.RFIDTagEntity;
 import com.echarge.demo.repository.RFIDTagRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
@@ -20,6 +21,7 @@ public class RFIDTagServiceImpl implements RFIDTagService {
         this.rfidTagRepository = rfidTagRepository;
     }
 
+    @Cacheable(value = "rfidTagByNumber")
     @Override
     public RFIDTagEntity findOneByNumber(int number) {
         return rfidTagRepository.findOneByNumber(number).orElseThrow((

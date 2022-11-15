@@ -22,23 +22,21 @@ public class ChargingEventProducerServiceImpl implements ChargingEventProducerSe
 
 
     private static final Logger log = LoggerFactory.getLogger(ChargingEventProducerServiceImpl.class);
-    private final ChargingSessionRepository chargingSessionReporitory;
     private final CustomerService customerService;
     private final ConnectorService connectorService;
     private final VehicleService vehicleService;
     private final RFIDTagService rfidTagService;
-    private final ChargePointService ChargePointService;
+    private final ChargePointService chargePointService;
     private final ChargingSessionService chargingSessionService;
 
 
     @Autowired
-    public ChargingEventProducerServiceImpl(ChargePointRepository chargePointRepository, ChargingSessionRepository chargingSessionReporitory, CustomerService customerService, ConnectorService connectorService, VehicleService vehicleService, RFIDTagService rfidTagService, ChargePointService ChargePointService, ChargingSessionService chargingSessionService) {
-        this.chargingSessionReporitory = chargingSessionReporitory;
+    public ChargingEventProducerServiceImpl(ChargePointRepository chargePointRepository, CustomerService customerService, ConnectorService connectorService, VehicleService vehicleService, RFIDTagService rfidTagService, ChargePointService ChargePointService, ChargingSessionService chargingSessionService) {
         this.customerService = customerService;
         this.connectorService = connectorService;
         this.vehicleService = vehicleService;
         this.rfidTagService = rfidTagService;
-        this.ChargePointService = ChargePointService;
+        this.chargePointService = ChargePointService;
         this.chargingSessionService = chargingSessionService;
     }
 
@@ -112,7 +110,7 @@ public class ChargingEventProducerServiceImpl implements ChargingEventProducerSe
                     chargingEventProp.chargePoint.getName(), chargingEventProp.chargePoint.getSn(),
                     chargingEventProp.connector.getNumber(), chargingEventProp.rfidTag.getName(), chargingEventProp.rfidTag.getNumber()));
         }
-        ChargePointService.fetchErrorMessageIfPresent(chargingSessionService, chargingSession.getId());
+        chargePointService.fetchErrorMessageIfPresent(chargingSessionService, chargingSession.getId());
         ChargingSessionEntity session = chargingSessionService.endSession(chargingSession.getId());
         vehicleService.updateMeter(chargingSession.getVehicleId(), chargingSession.getEndMeter());
         return session;
@@ -127,9 +125,9 @@ public class ChargingEventProducerServiceImpl implements ChargingEventProducerSe
 
         public ChargingEventProperties(Long userId, ChargingEventRequest request) throws IllegalAccessException {
             customer = customerService.findOneByUserId(userId);
-            chargePoint = ChargePointService.findOneBySn(request.getChargePointSerialNumber());
+            chargePoint = chargePointService.findOneBySn(request.getChargePointSerialNumber());
 
-            if (!ChargePointService.belongsToCustomer(customer.getId(), chargePoint.getId()))
+            if (!chargePointService.belongsToCustomer(customer.getId(), chargePoint.getId()))
                 throw new IllegalAccessException(format("Provided Charge Point (name = %s, Serial Number = %s) " +
                         "doesn't belong to requested customer", chargePoint.getName(), chargePoint.getSn()));
 
