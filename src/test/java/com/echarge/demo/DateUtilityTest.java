@@ -20,14 +20,13 @@ class DateUtilityTest {
     }
 
     @Test
-    void dateInFormatOtherThanKnownIsNotAccep11ted() {
-        assertThrows(IllegalArgumentException.class, () -> DateUtility.getDateIfValid("2000-30-30"));
-    }
-
-
-    @Test
     void invalidDateIsNotAccepted() {
         assertThrows(IllegalArgumentException.class, () -> DateUtility.getDateIfValid("2000-02-30 14:30"));
+    }
+
+    @Test
+    void wrongInputIsNotAccepted() {
+        assertThrows(IllegalArgumentException.class, () -> DateUtility.getDateIfValid("sdh"));
     }
 
     @Test

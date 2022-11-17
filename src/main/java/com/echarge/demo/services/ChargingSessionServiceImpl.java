@@ -18,6 +18,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.NoSuchElementException;
 
+import static java.time.ZoneOffset.UTC;
+
 @Service
 public class ChargingSessionServiceImpl implements ChargingSessionService {
     private static final Logger log = LoggerFactory.getLogger(ChargingSessionServiceImpl.class);
@@ -74,7 +76,7 @@ public class ChargingSessionServiceImpl implements ChargingSessionService {
         session.setConnectorId(connectorId);
         session.setVehicleId(vehicle.getId());
         session.setStartMeter(vehicle.getMeter());
-        session.setStartTime(Date.from(Instant.now()));
+        session.setStartTime(Date.from(Instant.now().atZone(UTC).toInstant()));
 
         chargingSessionRepository.save(session);
         return session;
@@ -84,8 +86,7 @@ public class ChargingSessionServiceImpl implements ChargingSessionService {
     public ChargingSessionEntity endSession(long sessionId) {
 
         ChargingSessionEntity session = chargingSessionRepository.findOneById(sessionId);
-        session.setEndTime(Date.from(Instant.now()));
-
+        session.setEndTime(Date.from(Instant.now().atZone(UTC).toInstant()));
         Date startTime = session.getStartTime();
         Date endTime = session.getEndTime();
         long chargingTime = calculateChargingTimeInMinutes(startTime, endTime);

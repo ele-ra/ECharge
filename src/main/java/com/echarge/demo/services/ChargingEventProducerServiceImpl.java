@@ -6,7 +6,6 @@ import com.echarge.demo.payload.request.ChargingEventRequest;
 import com.echarge.demo.payload.response.ChargingRequestResponse;
 import com.echarge.demo.payload.response.MessageResponse;
 import com.echarge.demo.repository.ChargePointRepository;
-import com.echarge.demo.repository.ChargingSessionRepository;
 import lombok.Data;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

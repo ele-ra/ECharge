@@ -1,22 +1,26 @@
 This is an app to manage charging events of electric vehicles. 
-User from the list of known users can login into the app and receive a token to perform operations in the system.
+User from the list of known users can login into the app and receive a token to perform operations in system.
 
 
 Open endpoint provided to show App version and Db version defined in app properties. It is accessible with path:
 
     /info/version
 
-Only for Admin user:
+**Only for Admin user**
 
-    GET request
+GET request
+
         /api/admin/chargingsessions
 
-List charging sessions with option to filter by dates using path variables <from> and <to>,
-where the date in supported formats should be entered. Supported formats are:
+List charging sessions with option to filter by dates using path variables From and To, where the date in supported formats should be entered. 
+Supported formats are:
 "yyyy/MM/dd", "yyyy/MM/dd HH:mm", "yyyy-MM-dd", "yyyy-MM-dd HH:mm"
-    
-    POST request
+
+
+POST request
+
         /api/admin/connector/create
+
 Add new connector to the system linking it to an existing charge point. 
 It is not possible to add connector without a link to charge point.
 
@@ -32,9 +36,10 @@ It is not possible to add connector without a link to charge point.
         connectorNumber accepts <int number not more than 5 digits long>
 Returns info about added connector or a message with error information.
 
-For Customer user:
+**For Customer user**
 
-    POST request
+POST request
+
         /api/charge/start
 Start charging session providing charge point Serial Number, connector number and RDFIDTagNumber. 
 It is only possible to initiate charging session, if provided parameters are valid and can be used. 
@@ -52,7 +57,8 @@ System will provide more information with error messages.
         rdfidTagNumber <int number not more than 5 digits long>
 Returns info about created session or a message with error information.
 
-    POST request
+POST request
+
         /api/charge/end
 End charging session providing charge point Serial Number, connector number and RDFIDTagNumber.
 It is only possible to end charging session if it exists and if provided parameters are valid and can be used.
@@ -69,9 +75,10 @@ It is only possible to end charging session if it exists and if provided paramet
         rdfidTagNumber <int number not more than 5 digits long>    
 Returns info about ended session or a message with error information.
 
-For User: 
+**For User**
 
-    POST request
+POST request
+
         /api/auth/login
 Should be used to login into application using credentials of known users.
 

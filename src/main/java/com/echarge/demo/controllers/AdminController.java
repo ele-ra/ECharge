@@ -3,8 +3,6 @@ package com.echarge.demo.controllers;
 import com.echarge.demo.entity.ChargingSessionEntity;
 import com.echarge.demo.entity.ConnectorEntity;
 import com.echarge.demo.payload.request.ConnectorAddRequest;
-import com.echarge.demo.services.ChargePointService;
-import com.echarge.demo.services.ChargingEventProducerService;
 import com.echarge.demo.services.ChargingSessionService;
 import com.echarge.demo.services.ConnectorProducerService;
 import com.echarge.demo.services.helper.ChargingSessionFilter;
@@ -24,7 +22,6 @@ import javax.validation.Valid;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.Collection;
-import java.util.List;
 
 @RestController
 @RequestMapping("/api/admin")

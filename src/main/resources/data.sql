@@ -37,7 +37,7 @@ INSERT INTO connector(number, chargepointid) select 111, id from chargepoint whe
 INSERT INTO connector(number, chargepointid) select 3, id from chargepoint where sn = 'sn3';
 INSERT INTO connector(number, chargepointid) select 4, id from chargepoint where sn = 'sn3';
 
-INSERT INTO vehicle(name, registrationplate, meter) VALUES ('v_1', 'rplate1', 10);
+INSERT INTO vehicle(name, registrationplate, meter) VALUES ('v_1', 'rplate1', 124);
 INSERT INTO vehicle(name, registrationplate, meter) VALUES ('v_11', 'rplate11', 5);
 INSERT INTO vehicle(name, registrationplate, meter) VALUES ('v_2CantCharge_noConnectors', 'rplate2', 1);
 INSERT INTO vehicle(name, registrationplate, meter) VALUES ('v_3', 'rplate3', 0);
